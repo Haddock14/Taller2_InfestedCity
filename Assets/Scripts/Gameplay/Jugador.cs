@@ -25,6 +25,20 @@ public class Jugador : MonoBehaviour
     }
 
 
+    void ReiniciarEscena()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle") || collision.gameObject.CompareTag("Enemy"))
+        {
+            Invoke("ReiniciarEscena", 1f);
+        }
+    }
+
+
     void Mover()
     {
         movX = 0;
@@ -46,7 +60,7 @@ public class Jugador : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.velocity = new Vector3(rb.velocity.x, 5f, rb.velocity.z);
+            rb.velocity = new Vector3(rb.velocity.x, 8f, rb.velocity.z);
         }
     }
 }
