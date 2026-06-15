@@ -7,6 +7,9 @@ public class Jugador : MonoBehaviour
 
     public float velocidad = 5f;
     public Animator animator;
+    public GameObject balaPrefab;
+    public float intervaloFuego = 0.5f;
+    public float tiempoUltimoDisparo;
     private Rigidbody rb;
     float movX;
     float movZ;
@@ -22,6 +25,14 @@ public class Jugador : MonoBehaviour
     {
         Salto();
         Mover();
+
+        if (Time.time >= tiempoUltimoDisparo + intervaloFuego)
+        {
+            if (Input.GetKey(KeyCode.F))
+            {
+                Disparar();
+            }
+        }
     }
 
 
@@ -62,5 +73,14 @@ public class Jugador : MonoBehaviour
         {
             rb.velocity = new Vector3(rb.velocity.x, 8f, rb.velocity.z);
         }
+    }
+
+    void Disparar()
+    {
+        tiempoUltimoDisparo = Time.time; 
+        GameObject bala = Instantiate(balaPrefab, new Vector3(transform.position.x, 1f, transform.position.z) + transform.forward, Quaternion.identity);
+
+        Rigidbody rbBala = bala.GetComponent<Rigidbody>();
+        rbBala.velocity = transform.forward * 10;
     }
 }
