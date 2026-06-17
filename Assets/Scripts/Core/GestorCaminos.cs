@@ -7,6 +7,7 @@ public class GestorCaminos : MonoBehaviour
    [Header("Configuración del Prefab")]
     [SerializeField] private GameObject caminoPrefab; 
     [SerializeField] private float largoDelCamino = 10f;
+    [SerializeField] private GameObject zombiePrefab;
     [SerializeField] private int maxCaminos = 10;
 
     private Transform jugadorTransform;
@@ -16,7 +17,7 @@ public class GestorCaminos : MonoBehaviour
     void Start() 
     {
         // Validar el Prefab
-        if (caminoPrefab == null) 
+        if (caminoPrefab == null || zombiePrefab == null) 
         {
             Debug.LogError("ERROR: No se ha asignado el prefab 'Camino' en el Inspector de Unity.");
             return; 
@@ -58,6 +59,7 @@ public class GestorCaminos : MonoBehaviour
     {
         // Instancia cada camino exactamente uno detrás del otro
         GameObject nuevoCamino = Instantiate(caminoPrefab, new Vector3(0, 0, proximaPosicionZ), Quaternion.identity);
+        GenerarEnemigoEnCamino(nuevoCamino);
         listaCaminos.Add(nuevoCamino);
         
         // Desplazar la coordenada para el siguiente camino
@@ -70,13 +72,35 @@ public class GestorCaminos : MonoBehaviour
         GameObject caminoViejo = listaCaminos[0]; // se guarda en variable local
         listaCaminos.RemoveAt(0);
 
+        foreach (Transform child in caminoViejo.transform)
+        {
+            if (child.CompareTag("Enemy")) Destroy(child.gameObject);
+        }
+
         // Moverlo a la nueva posicion del frente
         caminoViejo.transform.position = new Vector3(0, 0, proximaPosicionZ);
-        
+        GenerarEnemigoEnCamino(caminoViejo);
         // Añadirlo nuevamente al final de la lista para mantener el orden
         listaCaminos.Add(caminoViejo);
 
         // Actualizar la coordenada para el próximo ciclo
         proximaPosicionZ += largoDelCamino;
+
+        
+    }
+    void GenerarEnemigoEnCamino(GameObject camino)
+    {
+        if (Random.value > 0.5f)
+        {
+            float[] posicionesX = { -2f, 0f, 2f };
+            float xAleatoria = posicionesX[Random.Range(0, posicionesX.Length)];
+            
+            Vector3 posicionRelativa = new Vector3(xAleatoria, 0.5f, 2f);
+
+            GameObject zombie = Instantiate(zombiePrefab);
+            zombie.transform.position = camino.transform.position + posicionRelativa;
+            zombie.transform.SetParent(camino.transform); 
+            zombie.tag = "Enemy";
+        }
     }
 }
