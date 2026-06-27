@@ -17,9 +17,14 @@ public class GestorCaminos : MonoBehaviour
     void Start() 
     {
         // Validar el Prefab
-        if (caminoPrefab == null || zombiePrefab == null) 
+        if (caminoPrefab == null) 
         {
             Debug.LogError("ERROR: No se ha asignado el prefab 'Camino' en el Inspector de Unity.");
+            return; 
+        }
+        if (zombiePrefab == null) 
+        {
+            Debug.LogError("ERROR: No se ha asignado el prefab 'Zombie' en el Inspector de Unity.");
             return; 
         }
 

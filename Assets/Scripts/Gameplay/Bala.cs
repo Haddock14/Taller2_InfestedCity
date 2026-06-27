@@ -7,7 +7,7 @@ public class Bala : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(gameObject, 10f); // Destruir el proyectil después de 10 segundos
+        Destroy(gameObject, 2f); // Destruir el proyectil después de 2 segundos
     }
 
     void OnCollisionEnter(Collision collision)

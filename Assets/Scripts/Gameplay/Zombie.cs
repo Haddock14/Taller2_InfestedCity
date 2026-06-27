@@ -22,7 +22,7 @@ public class Zombie : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
        
-        if (other.CompareTag("Bala")) 
+        if (other.CompareTag("Bullet")) 
         {
             Destroy(gameObject); 
             Destroy(other.gameObject);

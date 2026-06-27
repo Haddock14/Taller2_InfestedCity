@@ -5,7 +5,8 @@ using UnityEngine;
 public class Jugador : MonoBehaviour
 {
 
-    public float velocidad = 5f;
+    public float velocidadZ = 5f;
+    public float velocidadX = 3f;
     public Animator animator;
     public GameObject balaPrefab;
     public float intervaloFuego = 0.5f;
@@ -64,21 +65,21 @@ public class Jugador : MonoBehaviour
             movX = 1;
         }
 
-        rb.velocity = new Vector3(movX * velocidad, rb.velocity.y, movZ * velocidad);
+        rb.velocity = new Vector3(movX * velocidadX, rb.velocity.y, movZ * velocidadZ);
     }
 
     void Salto()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.velocity = new Vector3(rb.velocity.x, 8f, rb.velocity.z);
+            rb.velocity = new Vector3(rb.velocity.x, 6.75f, rb.velocity.z);
         }
     }
 
     void Disparar()
     {
         tiempoUltimoDisparo = Time.time; 
-        GameObject bala = Instantiate(balaPrefab, new Vector3(transform.position.x, 1f, transform.position.z) + transform.forward, Quaternion.identity);
+        GameObject bala = Instantiate(balaPrefab, new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z) + transform.forward, Quaternion.identity);
 
         Rigidbody rbBala = bala.GetComponent<Rigidbody>();
         rbBala.velocity = transform.forward * 10;
