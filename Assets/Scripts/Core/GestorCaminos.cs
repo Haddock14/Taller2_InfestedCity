@@ -93,6 +93,7 @@ public class GestorCaminos : MonoBehaviour
 
         
     }
+
     void GenerarEnemigoEnCamino(GameObject camino)
     {
         if (Random.value > 0.5f)
@@ -100,7 +101,7 @@ public class GestorCaminos : MonoBehaviour
             float[] posicionesX = { -2f, 0f, 2f };
             float xAleatoria = posicionesX[Random.Range(0, posicionesX.Length)];
             
-            Vector3 posicionRelativa = new Vector3(xAleatoria, 0.5f, 2f);
+            Vector3 posicionRelativa = new Vector3(xAleatoria, 0.2f, 2f);
 
             GameObject zombie = Instantiate(zombiePrefab);
             zombie.transform.position = camino.transform.position + posicionRelativa;

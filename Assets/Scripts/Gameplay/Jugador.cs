@@ -5,12 +5,13 @@ using UnityEngine;
 public class Jugador : MonoBehaviour
 {
 
-    public float velocidadZ = 5f;
-    public float velocidadX = 3f;
+    public float velocidadZ = 9f;
+    public float velocidadX = 2.5f;
     public Animator animator;
     public GameObject balaPrefab;
     public float intervaloFuego = 0.5f;
     public float tiempoUltimoDisparo;
+    public bool enSuelo;
     private Rigidbody rb;
     float movX;
     float movZ;
@@ -24,6 +25,15 @@ public class Jugador : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (rb.position.y <= 0.01f)
+        {
+            enSuelo = true;
+        }
+        else
+        {
+            enSuelo = false;
+        }
+
         Salto();
         Mover();
 
@@ -70,9 +80,9 @@ public class Jugador : MonoBehaviour
 
     void Salto()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && enSuelo)
         {
-            rb.velocity = new Vector3(rb.velocity.x, 6.75f, rb.velocity.z);
+            rb.velocity = new Vector3(rb.velocity.x, 5.6f, rb.velocity.z);
         }
     }
 
@@ -82,6 +92,6 @@ public class Jugador : MonoBehaviour
         GameObject bala = Instantiate(balaPrefab, new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z) + transform.forward, Quaternion.identity);
 
         Rigidbody rbBala = bala.GetComponent<Rigidbody>();
-        rbBala.velocity = transform.forward * 10;
+        rbBala.velocity = transform.forward * 15;
     }
 }
