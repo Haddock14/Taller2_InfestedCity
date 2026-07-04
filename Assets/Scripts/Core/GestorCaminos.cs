@@ -8,6 +8,7 @@ public class GestorCaminos : MonoBehaviour
     [SerializeField] private GameObject caminoPrefab; 
     [SerializeField] private float largoDelCamino = 10f;
     [SerializeField] private GameObject zombiePrefab;
+    [SerializeField] private GameObject[] autosPrefabs;
     [SerializeField] private int maxCaminos = 10;
 
     private Transform jugadorTransform;
@@ -25,6 +26,11 @@ public class GestorCaminos : MonoBehaviour
         if (zombiePrefab == null) 
         {
             Debug.LogError("ERROR: No se ha asignado el prefab 'Zombie' en el Inspector de Unity.");
+            return; 
+        }
+        if (autosPrefabs == null || autosPrefabs.Length == 0) 
+        {
+            Debug.LogError("ERROR: No se han asignado prefabs de autos en el Inspector de Unity.");
             return; 
         }
 
@@ -79,7 +85,7 @@ public class GestorCaminos : MonoBehaviour
 
         foreach (Transform child in caminoViejo.transform)
         {
-            if (child.CompareTag("Enemy")) Destroy(child.gameObject);
+            if (child.CompareTag("Enemy") || child.CompareTag("Obstacle")) Destroy(child.gameObject);
         }
 
         // Moverlo a la nueva posicion del frente
@@ -96,17 +102,42 @@ public class GestorCaminos : MonoBehaviour
 
     void GenerarEnemigoEnCamino(GameObject camino)
     {
+        float[] posicionesX = { -2f, 0f, 2f };
+        float xAleatoriaZombie = posicionesX[Random.Range(0, posicionesX.Length)];
+
         if (Random.value > 0.5f)
         {
-            float[] posicionesX = { -2f, 0f, 2f };
-            float xAleatoria = posicionesX[Random.Range(0, posicionesX.Length)];
-            
-            Vector3 posicionRelativa = new Vector3(xAleatoria, 0.2f, 2f);
-
+            Vector3 posicionRelativa = new Vector3(xAleatoriaZombie, 0.2f, 2f);
             GameObject zombie = Instantiate(zombiePrefab);
+
             zombie.transform.position = camino.transform.position + posicionRelativa;
             zombie.transform.SetParent(camino.transform); 
             zombie.tag = "Enemy";
+        }
+
+        if (0 > xAleatoriaZombie || xAleatoriaZombie > 2f)
+        {
+            xAleatoriaZombie = 100f; // Asignar un valor fuera del rango para asegurar que no se creo al zombie
+        }
+        GenerarAuto(camino, xAleatoriaZombie);
+    }
+
+    void GenerarAuto(GameObject camino, float xZombie)
+    {
+        if (Random.value > 0.5f)
+        {
+            float[] posicionesX = { -2.6f, 0f, 2.6f };
+            float xAleatoriaAuto = posicionesX[Random.Range(0, posicionesX.Length)];
+
+            if (xZombie != xAleatoriaAuto) // Evitar que el auto y el zombie estén en la misma posición
+            {
+                Vector3 posicionRelativa = new Vector3(xAleatoriaAuto, 0.1f, 2f);
+
+                GameObject auto = Instantiate(autosPrefabs[Random.Range(0, autosPrefabs.Length)]);
+                auto.transform.position = camino.transform.position + posicionRelativa;
+                auto.transform.SetParent(camino.transform); 
+                auto.tag = "Obstacle";
+            }
         }
     }
 }
