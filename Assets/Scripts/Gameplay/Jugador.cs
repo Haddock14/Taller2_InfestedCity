@@ -9,7 +9,7 @@ public class Jugador : MonoBehaviour
     public float velocidadX = 2.5f;
     public Animator animator;
     public GameObject balaPrefab;
-    public float intervaloFuego = 0.5f;
+    public float intervaloFuego = 1f;
     public float tiempoUltimoDisparo;
     public bool enSuelo;
     private Rigidbody rb;

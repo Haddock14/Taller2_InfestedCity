@@ -14,6 +14,7 @@ public class GestorCaminos : MonoBehaviour
     private Transform jugadorTransform;
     private List<GameObject> listaCaminos = new List<GameObject>();
     private float proximaPosicionZ = 0f;
+    private float[] posicionesX = { -3f, 0f, 3f };
 
     void Start() 
     {
@@ -102,7 +103,6 @@ public class GestorCaminos : MonoBehaviour
 
     void GenerarEnemigoEnCamino(GameObject camino)
     {
-        float[] posicionesX = { -2f, 0f, 2f };
         float xAleatoriaZombie = posicionesX[Random.Range(0, posicionesX.Length)];
 
         if (Random.value > 0.5f)
@@ -115,7 +115,7 @@ public class GestorCaminos : MonoBehaviour
             zombie.tag = "Enemy";
         }
 
-        if (0 > xAleatoriaZombie || xAleatoriaZombie > 2f)
+        if (posicionesX[0] > xAleatoriaZombie || xAleatoriaZombie > posicionesX[posicionesX.Length - 1])
         {
             xAleatoriaZombie = 100f; // Asignar un valor fuera del rango para asegurar que no se creo al zombie
         }
@@ -126,7 +126,6 @@ public class GestorCaminos : MonoBehaviour
     {
         if (Random.value > 0.5f)
         {
-            float[] posicionesX = { -2.6f, 0f, 2.6f };
             float xAleatoriaAuto = posicionesX[Random.Range(0, posicionesX.Length)];
 
             if (xZombie != xAleatoriaAuto) // Evitar que el auto y el zombie estén en la misma posición

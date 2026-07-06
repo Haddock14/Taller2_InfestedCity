@@ -598,7 +598,7 @@ MonoBehaviour:
   velocidadX: 2.5
   animator: {fileID: 0}
   balaPrefab: {fileID: 96159219357203969, guid: 3745fcfe067709842811270c211f2932, type: 3}
-  intervaloFuego: 0.5
+  intervaloFuego: 0.8
   tiempoUltimoDisparo: 0
   enSuelo: 0
 --- !u!65 &709166068010749871
