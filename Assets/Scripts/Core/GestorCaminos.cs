@@ -10,6 +10,7 @@ public class GestorCaminos : MonoBehaviour
     [SerializeField] private GameObject zombiePrefab;
     [SerializeField] private GameObject[] autosPrefabs;
     [SerializeField] private int maxCaminos = 10;
+    [SerializeField] private GameObject monedaPrefab;
 
     private Transform jugadorTransform;
     private List<GameObject> listaCaminos = new List<GameObject>();
@@ -86,7 +87,7 @@ public class GestorCaminos : MonoBehaviour
 
         foreach (Transform child in caminoViejo.transform)
         {
-            if (child.CompareTag("Enemy") || child.CompareTag("Obstacle")) Destroy(child.gameObject);
+            if (child.CompareTag("Enemy") || child.CompareTag("Obstacle") || child.CompareTag("Coin")) Destroy(child.gameObject);
         }
 
         // Moverlo a la nueva posicion del frente
@@ -120,6 +121,7 @@ public class GestorCaminos : MonoBehaviour
             xAleatoriaZombie = 100f; // Asignar un valor fuera del rango para asegurar que no se creo al zombie
         }
         GenerarAuto(camino, xAleatoriaZombie);
+        GenerarMoneda(camino, xAleatoriaZombie);
     }
 
     void GenerarAuto(GameObject camino, float xZombie)
@@ -136,6 +138,21 @@ public class GestorCaminos : MonoBehaviour
                 auto.transform.position = camino.transform.position + posicionRelativa;
                 auto.transform.SetParent(camino.transform); 
                 auto.tag = "Obstacle";
+            }
+        }
+    }
+    void GenerarMoneda(GameObject camino, float xOcupado)
+    {
+        if (Random.value > 0.5f)
+        {
+            float xMoneda = posicionesX[Random.Range(0, posicionesX.Length)];
+
+            if (xMoneda != xOcupado)
+            {
+                Vector3 posicionRelativaMoneda = new Vector3(xMoneda,0.5f,2f);
+                Quaternion rotacionMoneda = Quaternion.Euler(90f,0f,0f);
+                GameObject moneda = Instantiate(monedaPrefab, camino.transform.position + posicionRelativaMoneda, Quaternion.identity, camino.transform);
+                moneda.tag = "Coin";
             }
         }
     }
