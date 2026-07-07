@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5934844665982997695}
   - component: {fileID: 6879278782811184675}
   - component: {fileID: -5803066862490872770}
+  - component: {fileID: -1998527131637721619}
   m_Layer: 0
   m_Name: Moneda
   m_TagString: Coin
@@ -121,3 +122,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocidadGiro: 100
+--- !u!114 &-1998527131637721619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5516862551221649021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cd4523cd80a2214daa3cafe6ce3a6f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  valorMoneda: 1
