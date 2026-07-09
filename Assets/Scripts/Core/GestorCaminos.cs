@@ -12,6 +12,8 @@ public class GestorCaminos : MonoBehaviour
     [SerializeField] private int maxCaminos = 10;
     [SerializeField] private GameObject monedaPrefab;
 
+    [Header("Decoración")]
+    [SerializeField] private GameObject[] edificiosPrefabs;
     private Transform jugadorTransform;
     private List<GameObject> listaCaminos = new List<GameObject>();
     private float proximaPosicionZ = 0f;
@@ -73,6 +75,7 @@ public class GestorCaminos : MonoBehaviour
         // Instancia cada camino exactamente uno detrás del otro
         GameObject nuevoCamino = Instantiate(caminoPrefab, new Vector3(0, 0, proximaPosicionZ), Quaternion.identity);
         GenerarEnemigoEnCamino(nuevoCamino);
+        GenerarDecoracion(nuevoCamino);
         listaCaminos.Add(nuevoCamino);
         
         // Desplazar la coordenada para el siguiente camino
@@ -156,4 +159,18 @@ public class GestorCaminos : MonoBehaviour
             }
         }
     }
+    public void GenerarDecoracion(GameObject nuevoCamino)
+{
+    Transform decoracion = nuevoCamino.transform.Find("Decoracion");
+
+    if (decoracion != null)
+    {
+        foreach (Transform puntoSpawn in decoracion)
+        {
+            GameObject prefabEdificio = edificiosPrefabs[Random.Range(0, edificiosPrefabs.Length)];
+            
+            Instantiate(prefabEdificio, puntoSpawn.position, puntoSpawn.rotation, puntoSpawn);
+        }
+    }
+}
 }
