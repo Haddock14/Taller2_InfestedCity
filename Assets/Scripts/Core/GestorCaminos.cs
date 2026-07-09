@@ -74,8 +74,8 @@ public class GestorCaminos : MonoBehaviour
     {
         // Instancia cada camino exactamente uno detrás del otro
         GameObject nuevoCamino = Instantiate(caminoPrefab, new Vector3(0, 0, proximaPosicionZ), Quaternion.identity);
-        GenerarEnemigoEnCamino(nuevoCamino);
         GenerarDecoracion(nuevoCamino);
+        GenerarEnemigoEnCamino(nuevoCamino);
         listaCaminos.Add(nuevoCamino);
         
         // Desplazar la coordenada para el siguiente camino
@@ -153,7 +153,7 @@ public class GestorCaminos : MonoBehaviour
             if (xMoneda != xOcupado)
             {
                 Vector3 posicionRelativaMoneda = new Vector3(xMoneda,0.5f,2f);
-                Quaternion rotacionMoneda = Quaternion.Euler(90f,0f,0f);
+                Quaternion rotacionMoneda = Quaternion.Euler(90,0,0);
                 GameObject moneda = Instantiate(monedaPrefab, camino.transform.position + posicionRelativaMoneda, Quaternion.identity, camino.transform);
                 moneda.tag = "Coin";
             }
@@ -168,8 +168,9 @@ public class GestorCaminos : MonoBehaviour
         foreach (Transform puntoSpawn in decoracion)
         {
             GameObject prefabEdificio = edificiosPrefabs[Random.Range(0, edificiosPrefabs.Length)];
-            
-            Instantiate(prefabEdificio, puntoSpawn.position, puntoSpawn.rotation, puntoSpawn);
+            Quaternion rotacionEdificio = puntoSpawn.rotation * Quaternion.Euler(-90, 0, 90);
+            GameObject nuevoEdificio = Instantiate(prefabEdificio, puntoSpawn.position, rotacionEdificio, nuevoCamino.transform);
+            nuevoEdificio.transform.localScale = new Vector3(400, 400, 400); // Ajustar la escala del edificio
         }
     }
 }

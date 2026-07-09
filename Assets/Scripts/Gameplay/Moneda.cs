@@ -9,6 +9,7 @@ public class Moneda : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            GameManager.instance.SumarMonedas(valorMoneda);
             Debug.Log(" Moneda Recogida");
             Destroy(gameObject);
         }

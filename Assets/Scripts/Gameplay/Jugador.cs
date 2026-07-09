@@ -15,6 +15,8 @@ public class Jugador : MonoBehaviour
     private Rigidbody rb;
     float movX;
     float movZ;
+    float limiteLateral = 5.0f;
+    public AudioClip sonidoDisparo;
 
     // Start is called before the first frame update
     void Start()
@@ -76,6 +78,13 @@ public class Jugador : MonoBehaviour
         }
 
         rb.velocity = new Vector3(movX * velocidadX, rb.velocity.y, movZ * velocidadZ);
+        float posicionXFijada = Mathf.Clamp(transform.position.x, -limiteLateral, limiteLateral);
+
+        if (transform.position.x != posicionXFijada)
+        {
+            transform.position = new Vector3(posicionXFijada, transform.position.y, transform.position.z);
+            rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
+        }
     }
 
     void Salto()
@@ -90,7 +99,10 @@ public class Jugador : MonoBehaviour
     {
         tiempoUltimoDisparo = Time.time; 
         GameObject bala = Instantiate(balaPrefab, new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z) + transform.forward, Quaternion.identity);
-
+        if (sonidoDisparo != null)
+        {
+        AudioSource.PlayClipAtPoint(sonidoDisparo, transform.position);
+        }
         Rigidbody rbBala = bala.GetComponent<Rigidbody>();
         rbBala.velocity = transform.forward * 15;
     }
