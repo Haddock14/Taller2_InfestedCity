@@ -170,7 +170,7 @@ public class GestorCaminos : MonoBehaviour
             GameObject prefabEdificio = edificiosPrefabs[Random.Range(0, edificiosPrefabs.Length)];
             Quaternion rotacionEdificio = puntoSpawn.rotation * Quaternion.Euler(-90, 0, 90);
             GameObject nuevoEdificio = Instantiate(prefabEdificio, puntoSpawn.position, rotacionEdificio, nuevoCamino.transform);
-            nuevoEdificio.transform.localScale = new Vector3(400, 400, 400); // Ajustar la escala del edificio
+            nuevoEdificio.transform.localScale = new Vector3(500, 500, 500); // Ajustar la escala del edificio
         }
     }
 }
