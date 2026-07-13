@@ -4,13 +4,6 @@ title Diagrama de Clases - Infested City Run
 skin rose
 
 package "Core" {
-  class Camara {
-    - camaraTransform: Transform
-    - jugadorTransform: Transform
-    + Start() : void
-    + Update() : void
-    - Mover() : void
-  }
 
   class GameManager {
     + {static} instance: GameManager
@@ -98,7 +91,14 @@ package "Gameplay" {
     + Start(): void
     - OnCollisionEnter(collision: Collision): void
   }
-
+  
+  class Camara {
+    - camaraTransform: Transform
+    - jugadorTransform: Transform
+    + Start() : void
+    + Update() : void
+    - Mover() : void
+  }
 
 }
 
