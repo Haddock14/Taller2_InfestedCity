@@ -1,0 +1,124 @@
+@startuml DiagramaClases
+title Diagrama de Clases - Infested City Run
+
+skin rose
+
+package "Core" {
+  class Camara {
+    - camaraTransform: Transform
+    - jugadorTransform: Transform
+    + Start() : void
+    + Update() : void
+    - Mover() : void
+  }
+
+  class GameManager {
+    + {static} instance: GameManager
+    + textoMonedas: TextMeshProUGUI
+    + textoPuntaje: TextMeshProUGUI
+    + menuMuerte: GameObject
+    - monedasRecogidas: int
+    - puntaje: float
+    - Awake(): void
+    + Update(): void
+    + SumarMonedas(cantidad : int): void
+    + ReiniciarJuego(): void
+    + ClickEnReiniciar(): void
+  }
+
+  class GestorCaminos {
+    - caminoPrefab: GameObject
+    - largoDelCamino: float
+    - zombiePrefab: GameObject
+    - autosPrefabs: GameObject[]
+    - maxCaminos: int
+    - monedaPrefab: GameObject
+    - edificiosPrefabs: GameObject[]
+    - jugadorTransform: Transform
+    - listaCaminos: List<GameObject>
+    - proximaPosicionZ: float
+    - posicionesX: float[]
+    + Start(): void
+    + Update(): void
+    - CrearCamino(): void
+    - MoverCamino(): void
+    - GenerarEnemigoEnCamino(camino : GameObject): void
+    - GenerarAuto(camino: GameObject, xZombie : float): void
+    - GenerarMoneda(camino: GameObject, xOcupado: float): void
+    + GenerarDecoracion(nuevoCamino: GameObject): void
+  }
+}
+
+package "Gameplay" {
+  class Jugador {
+    + velocidadZ: float
+    + velocidadX: float
+    + animator: Animator
+    + balaPrefab: GameObject
+    + intervaloFuego: float
+    + tiempoUltimoDisparo: float
+    + enSuelo: bool
+    - rb: Rigidbody
+    - movX: float
+    - movZ: float
+    - limiteLateral: float
+    + sonidoDisparo: AudioClip
+    + Start(): void
+    + Update(): void
+    - ReiniciarEscena(): void
+    - OnCollisionEnter(collision : Collision): void
+    - Mover(): void
+    - Salto(): void
+    - Disparar(): void
+  }
+
+  class Auto {
+    - gameManager: GameManager
+    + Start(): void
+    + Update(): void
+    - OnTriggerEnter(other: Collider): void
+  }
+
+  class Zombie {
+    + velocidadAvance: float
+    - GameManager: GameManager
+    + sonidoMuerte: AudioClip
+    - audioSource: AudioSource
+    + Start(): void
+    + Update(): void
+    - OnTriggerEnter(other: Collider): void
+  }
+
+  class Moneda {
+    - valorMoneda: int
+    - OnTriggerEnter(other: Collider): void
+  }
+
+  class Bala {
+    + Start(): void
+    - OnCollisionEnter(collision: Collision): void
+  }
+
+
+}
+
+package "UI" {
+  class GirarMoneda {
+    + velocidadGiro: float
+    + Update(): void
+  }
+
+}
+
+' Relaciones
+Moneda ..> GameManager: notifica (SumarMonedas) via instance
+Auto ..> GameManager: solicita (ReiniciarJuego)
+Zombie ..> GameManager: solicita (ReiniciarJuego)
+
+GestorCaminos "1" --> "0..*" Zombie
+GestorCaminos "1" --> "0..*" Auto
+GestorCaminos "1" --> "0..*" Moneda
+
+Jugador "1" --> "0..*" Bala
+
+@enduml

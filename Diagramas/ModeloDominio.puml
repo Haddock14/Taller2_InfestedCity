@@ -1,0 +1,33 @@
+@startuml ModeloDominio
+title Modelo de Dominio - Infested City Run
+
+skin rose
+hide empty members
+
+entity Jugador
+entity Zombie
+entity Vehiculo
+entity Moneda
+entity Edificio
+entity Camino
+entity Carril
+entity MenuDerrota
+entity Boton
+entity Camara
+
+Camino "1" -- "3" Carril: compuesto por
+Camino "1" -- "0..*" Edificio
+
+Carril "1" -- "0..*" Zombie
+Carril "1" -- "0..*" Vehiculo
+Carril "1" -- "0..*" Moneda
+
+Jugador "1" -- "0..*" Moneda: recolecta
+Jugador "1" -- "0..*" Zombie: colisiona con
+Jugador "1" -- "0..*" Vehiculo: colisiona con
+
+Camara "1" -- "1" Jugador: sigue en eje Z
+
+MenuDerrota "1" -- "1" Boton
+Boton "1" -- "1" Camino: reinicia partida
+@enduml
