@@ -15,8 +15,12 @@ public class GameManager : MonoBehaviour
     
     void Awake()
     {
-        instance = this;
         menuMuerte.SetActive(false);
+        if (instance != null && instance != this) {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
     }
     void Update()
     {
